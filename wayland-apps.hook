@@ -1,0 +1,13 @@
+o[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = dolphin-emu
+Target = pcsx2
+Target = virtualbox
+Target = firefox
+
+[Action]
+Description = Pacman hook for wayland desktop files
+When = PostTransaction
+Exec = /usr/local/bin/folgui-wayland-apps
