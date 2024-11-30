@@ -1,4 +1,4 @@
-o[Trigger]
+[Trigger]
 Operation = Install
 Operation = Upgrade
 Type = Package
