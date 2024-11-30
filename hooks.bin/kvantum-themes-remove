@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+sudo rm -fr /usr/share/Kvantum/KvAmbiance
+sudo rm -fr /usr/share/Kvantum/KvAmbience
+sudo rm -fr /usr/share/Kvantum/KvBeige
+sudo rm -fr /usr/share/Kvantum/KvBlender
+sudo rm -fr /usr/share/Kvantum/KvBrown
+sudo rm -fr /usr/share/Kvantum/KvCurves
+sudo rm -fr /usr/share/Kvantum/KvCurves3d
+sudo rm -fr /usr/share/Kvantum/KvCurves3d1
+sudo rm -fr /usr/share/Kvantum/KvCyan
+sudo rm -fr /usr/share/Kvantum/KvDark
+sudo rm -fr /usr/share/Kvantum/KvDarkRed
+sudo rm -fr /usr/share/Kvantum/KvFlatLight
+sudo rm -fr /usr/share/Kvantum/KvFlatRed
+sudo rm -fr /usr/share/Kvantum/KvGnome
+sudo rm -fr /usr/share/Kvantum/KvGnomish
+sudo rm -fr /usr/share/Kvantum/KvGray
+sudo rm -fr /usr/share/Kvantum/KvMojave
+sudo rm -fr /usr/share/Kvantum/KvMojaveLight
+sudo rm -fr /usr/share/Kvantum/KvMojaveMixed
+sudo rm -fr /usr/share/Kvantum/KvMojaveMixed1
+sudo rm -fr /usr/share/Kvantum/KvRoughGlass
+sudo rm -fr /usr/share/Kvantum/KvSimplicityDarkLight
+sudo rm -fr /usr/share/Kvantum/KvSimplicityTurquoise
+sudo rm -fr /usr/share/Kvantum/KvYaru
+#echo FINALIZADO!!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

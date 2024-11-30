@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+xmlgetnext () {
+  local IFS='>'
+  read -r -d '<' TAG VALUE
+}
+
+if [ ! -f "/var/log/pacman.log" ]; then
+  echo -e "/var/log/pacman.log not found. Skipping check." >&2
+  exit
+fi
+
+readonly pacman_last_upgrade_time=$(grep "\[PACMAN\] starting full system upgrade" /var/log/pacman.log | tail -1 | grep -oP '\[\K[^\]]+' | head -1)
+
+if [ -z "$pacman_last_upgrade_time" ]; then
+  echo -e "No last system update time found. Skipping check." >&2
+  exit
+fi
+
+readonly pacman_last_upgrade_utime=$(date --date "$pacman_last_upgrade_time" '+%s')
+readonly current_utime=$(date '+%s')
+# shellcheck disable=SC2086
+readonly time_diff=$(($current_utime - $pacman_last_upgrade_utime))
+readonly day_diff=$(($time_diff / 86400))
+
+# RSS feed only shows the latest ten news items. If the last system update has
+# been a while ago, not all changes might be listed any more.
+# In this case, the user has to check for themself.
+# shellcheck disable=SC2086
+if [ $day_diff -gt 90 ]; then
+  echo "Last system update: ${day_diff} days ago. Too many packages might have changed since then."
+  echo "Please visit https://www.archlinux.org/news/ and check for packages requiring manual intervention."
+  exit
+fi
+
+curl -sS https://www.archlinux.org/feeds/news/ | while xmlgetnext ; do
+  case $TAG in
+    'item')
+      title=''
+      link=''
+      pub_utime=''
+      pubDate=''
+      ;;
+    'title')
+      title="$(echo "$VALUE" | sed -e 's/&lt;/</g' -e 's/&gt;/>/g')"
+      ;;
+    'link')
+      link="$VALUE"
+      ;;
+    'pubDate')
+      pub_utime=$(date --date "$VALUE" '+%s')
+      pubDate=$(date --date "$VALUE" '+%Y-%m-%d')
+      ;;
+    '/item')
+      # shellcheck disable=SC2086
+      if [ $pub_utime -ge $pacman_last_upgrade_utime ]; then
+        cat<<EOF
+$pubDate  $title
+          $link
+
+EOF
+      fi
+      ;;
+  esac
+done

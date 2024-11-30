@@ -1,0 +1,16 @@
+[Trigger]
+Type = Package
+Operation = Install
+Operation = Upgrade
+Target = pacman-mirrorlist
+
+[Action]
+Description = Updating archlinux mirrorlist with rate-mirrors and removing pacnew...
+When = PostTransaction
+Depends = rate-mirrors
+Exec = /usr/bin/bash /etc/pacman.d/hooks.bin/rate-mirrors arch
+
+
+
+
+

@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# Avoid unnecessary reboots: don't notify if an updated package is
+# - not currently running (e.g. alternative kernel)
+# - not in use (e.g. alternative driver)
+
+RunningKernel() {
+    local kernel
+    [[ $(uname -r) =~ 'xanmod' ]] && kernel='linux-xanmod'
+    [[ $(uname -r) =~ 'cachy' ]] && kernel='linux-cachyos'
+    if [[ -z $kernel ]]; then
+        cat /proc/cmdline | sed 's|.*/vmlinuz-\(linux[a-z0-9-]*\) .*|\1|'
+    else
+        echo $kernel
+    fi
+}
+
+Main() {
+    local runningKernel="$(RunningKernel)"
+    echo $runningKernel
+    exit 0
+
+    local targets=$(tee /dev/null) # targets from the hook (stdin)
+    local target
+    local notify=no
+    local runningKernel="$(RunningKernel)"
+
+    for target in $targets; do
+        case "$target" in
+        linux | linux-lts | linux-zen | linux-hardened | linux-xanmod | linux-cachyos)
+            if [[ "$target" = "$runningKernel" ]]; then
+                notify=yes
+                break
+            fi
+            ;;
+        nvidia)
+            if [[ "$runningKernel" = "linux" ]]; then
+                notify=yes
+                break
+            fi
+            ;;
+        nvidia-lts)
+            if [[ "$runningKernel" = "linux-lts" ]]; then
+                notify=yes
+                break
+            fi
+            ;;
+        btrfs-progs)
+            if [[ -n "$(/usr/bin/df -hT | awk '{print $2}' | grep -w btrfs)" ]]; then
+                notify=yes
+                break
+            fi
+            ;;
+        *)
+            notify=yes
+            break
+            ;;
+        esac
+    done
+
+    if [[ "$notify" = "yes" ]]; then
+        /etc/pacman.d/hooks.bin/archlinux-reboot-required
+    fi
+}
+
+Main "$@"

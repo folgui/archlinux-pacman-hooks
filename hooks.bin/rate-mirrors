@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# -*- ENCODING: UTF-8 -*-
+
+if [[ -n $1 ]]; then
+  now=$(date +"%Y%m%d-%H%M")
+  if pacman -Qs rate-mirrors >/dev/null; then
+    case $1 in
+    arch)
+      sudo cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.$now.bak
+      sudo rm /etc/pacman.d/mirrorlist.pacnew
+      rate-mirrors --allow-root --protocol=https --concurrency=8 --per-mirror-timeout=3000 arch | sudo tee /etc/pacman.d/mirrorlist
+      ;;
+    endeavouros)
+      sudo cp /etc/pacman.d/endeavouros-mirrorlist /etc/pacman.d/endeavouros-mirrorlist.$now.bak
+      sudo rm /etc/pacman.d/endeavouros-mirrorlist.pacnew
+      rate-mirrors --allow-root --protocol=https --concurrency=8 --per-mirror-timeout=3000 endeavouros | sudo tee /etc/pacman.d/endeavouros-mirrorlist
+      ;;
+    chaotic-aur)
+      sudo cp /etc/pacman.d/endeavouros-mirrorlist /etc/pacman.d/chaotic-mirrorlist.$now.bak
+      sudo rm /etc/pacman.d/endeavouros-mirrorlist.pacnew
+      rate-mirrors --allow-root --protocol=https --concurrency=8 --per-mirror-timeout=3000 chaotic-aur | sudo tee /etc/pacman.d/chaotic-mirrorlist
+      ;;
+    *) ;;
+    esac
+  fi
+else
+  exit 1
+fi
+
+exit 0

@@ -1,0 +1,12 @@
+[Trigger]
+Operation = Upgrade
+Operation = Install
+Type = Package
+Target = kvantum
+
+[Action]
+Description = Remove some default themes from Kvantum
+When = PostTransaction
+Exec = /etc/pacman.d/hooks.bin/kvantum-themes-remove
+
+

@@ -1,0 +1,12 @@
+[Trigger]
+Type = Package
+Operation = Remove
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = *
+
+[Action]
+Description = Cleaning pacman cache leaving only 3 version of each package...
+When = PostTransaction
+Exec = /usr/bin/paccache -rvk3

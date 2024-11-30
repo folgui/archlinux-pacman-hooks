@@ -1,0 +1,11 @@
+[Trigger]
+Operation = Install
+Operation = Remove
+Type = Package
+Target = *
+
+[Action]
+Description = Update locate database a pkg install/uninstall
+When = PostTransaction
+Exec = /usr/bin/updatedb
+

@@ -10,8 +10,8 @@ Target = linux-hardened
 Target = linux-lts
 Target = linux-zen
 Target = linux-firmware
-Target = linux-cachyos*
-Target = linux-xanmod*
+Target = linux-cachyos
+Target = linux-xanmod
 Target = nvidia
 Target = nvidia-dkms
 Target = nvidia-*xx-dkms
@@ -38,4 +38,4 @@ Description = Check if user should be informed about rebooting after certain sys
 When = PostTransaction
 Depends = libnotify
 NeedsTargets
-Exec = /usr/local/bin/archlinux-check-reboot-required
+Exec = /etc/pacman.d/hooks.bin/archlinux-check-reboot-required

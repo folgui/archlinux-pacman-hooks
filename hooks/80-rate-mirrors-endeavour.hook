@@ -1,0 +1,16 @@
+[Trigger]
+Type = Package
+Operation = Install
+Operation = Upgrade
+Target = endeavouros-mirrorlist
+
+[Action]
+Description = Updating endeavouros mirrorlist with rate-mirrors and removing pacnew...
+When = PostTransaction
+Depends = rate-mirrors
+Exec = /usr/bin/bash /etc/pacman.d/hooks.bin/rate-mirrors endeavouros
+
+
+
+
+

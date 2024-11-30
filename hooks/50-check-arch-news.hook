@@ -1,0 +1,15 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = *
+
+[Action]
+Description = Checking Arch Linux news feed for packages needing manual intervention...
+Depends = curl
+Depends = openssl
+When = PreTransaction
+Exec = /etc/pacman.d/hooks.bin/check-arch-news
+
+
+
