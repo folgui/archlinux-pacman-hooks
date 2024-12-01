@@ -16,10 +16,6 @@ RunningKernel() {
 }
 
 Main() {
-    local runningKernel="$(RunningKernel)"
-    echo $runningKernel
-    exit 0
-
     local targets=$(tee /dev/null) # targets from the hook (stdin)
     local target
     local notify=no
